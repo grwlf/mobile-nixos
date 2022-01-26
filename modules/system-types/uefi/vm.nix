@@ -12,6 +12,8 @@ let
   ram  = toString hardware.ram;
   xres = toString hardware.screen.width;
   yres = toString hardware.screen.height;
+  fwd22_port = toString config.mobile.outputs.uefi.fwd22_port;
+  fwd23_port = toString config.mobile.outputs.uefi.fwd23_port;
 in
 {
   options = {
@@ -24,6 +26,20 @@ in
               Script to start a UEFI-based virtual machine.
             '';
             visible = false;
+          };
+          fwd22_port = mkOption {
+            type = types.int;
+            default = 2222;
+            description = ''
+              Host TCP port to forward VM's port 22 (usually, sshd).
+            '';
+          };
+          fwd23_port = mkOption {
+            type = types.int;
+            default = 2223;
+            description = ''
+              Host TCP port to forward VM's port 23.
+            '';
           };
         };
       };
@@ -59,7 +75,7 @@ in
           -device "usb-tablet"
 
           -device "e1000,netdev=net0"
-          -netdev "user,id=net0,hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23,net=172.16.42.0/24,dhcpstart=172.16.42.1"
+          -netdev "user,id=net0,hostfwd=tcp::${fwd22_port}-:22,hostfwd=tcp::${fwd23_port}-:23,net=172.16.42.0/24,dhcpstart=172.16.42.1"
 
           -device "e1000,netdev=user.0"
           -netdev "user,id=user.0"
