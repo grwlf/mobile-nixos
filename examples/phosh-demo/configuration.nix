@@ -4,7 +4,8 @@ let
   terminal = pkgs.kgx.override { genericBranding = true; };
 
   # One-stop shop to customize the default username before building.
-  defaultUserName = "alice";
+  defaultUserName = "nixos";
+  defaultUserId = 1001;
 in
 {
   config = lib.mkMerge [
@@ -20,7 +21,7 @@ in
         password = "1234";
         home = "/home/${defaultUserName}";
         extraGroups = [ "wheel" "networkmanager" "video" "feedbackd" ];
-        uid = 1000;
+        uid = defaultUserId;
       };
 
       users.users.root.password  = "nixos";
@@ -40,7 +41,7 @@ in
         wantedBy = [ "graphical.target" ];
         serviceConfig = {
           ExecStart = "${pkgs.phosh}/bin/phosh";
-          User = 1000;
+          User = defaultUserId;
           PAMName = "login";
           WorkingDirectory = "~";
 
