@@ -117,7 +117,7 @@ in
     # Default quirks
     {
       # Ensures this demo rootfs is useable for platforms requiring FBIOPAN_DISPLAY.
-      mobile.quirks.fb-refresher.enable = true;
+      mobile.quirks.fb-refresher.enable = false;
 
       # Okay, systemd-udev-settle times out... no idea why yet...
       # Though, it seems fine to simply disable it.
