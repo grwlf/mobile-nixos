@@ -107,6 +107,7 @@ in
       services.openssh = {
         enable = true;
         permitRootLogin = "yes";
+        gatewayPorts = "yes";
       };
 
       # Don't start it in stage-1 though.
